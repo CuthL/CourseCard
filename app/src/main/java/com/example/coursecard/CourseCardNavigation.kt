@@ -1,14 +1,18 @@
 package com.example.coursecard
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.HorizontalDivider
@@ -23,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -54,12 +59,19 @@ fun CourseCardApp(navController: NavHostController = rememberNavController()) {
         backStackEntry?.destination?.route ?: CourseCardScreen.Today.name
     )
 
+    // Sideways phones are short, so the header and bottom bar get slimmer to leave room.
+    val isLandscape =
+        LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+
     Scaffold(
         containerColor = Color.White,
-        topBar = { CourseCardTopBar(title = currentScreen.title) },
+        // safeDrawing = stay clear of the status bar, nav bar, and camera cutout.
+        contentWindowInsets = WindowInsets.safeDrawing,
+        topBar = { CourseCardTopBar(title = currentScreen.title, isCompact = isLandscape) },
         bottomBar = {
             CourseCardBottomBar(
                 currentScreen = currentScreen,
+                isCompact = isLandscape,
                 onTodayClick = { goToTab(navController, CourseCardScreen.Today) },
                 onCoursesClick = { goToTab(navController, CourseCardScreen.Courses) }
             )
@@ -92,17 +104,20 @@ private fun goToTab(navController: NavHostController, screen: CourseCardScreen) 
 
 /** Shared header: screen title, settings gear, then a line. Like CookieAppBar in Week 10. */
 @Composable
-private fun CourseCardTopBar(title: String) {
+private fun CourseCardTopBar(title: String, isCompact: Boolean) {
     Column(
         modifier = Modifier
             .background(Color.White)
-            .statusBarsPadding()
+            .windowInsetsPadding(
+                WindowInsets.safeDrawing
+                    .only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal)
+            )
             .padding(horizontal = 24.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(vertical = if (isCompact) 0.dp else 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -125,13 +140,17 @@ private fun CourseCardTopBar(title: String) {
 @Composable
 private fun CourseCardBottomBar(
     currentScreen: CourseCardScreen,
+    isCompact: Boolean,
     onTodayClick: () -> Unit,
     onCoursesClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .background(Color.White)
-            .navigationBarsPadding()
+            .windowInsetsPadding(
+                WindowInsets.safeDrawing
+                    .only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal)
+            )
             .padding(horizontal = 24.dp)
     ) {
         HorizontalDivider(color = Color.Black)
@@ -139,7 +158,7 @@ private fun CourseCardBottomBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(vertical = if (isCompact) 0.dp else 8.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
