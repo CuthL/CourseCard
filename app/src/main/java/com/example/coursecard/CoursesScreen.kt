@@ -40,8 +40,9 @@ import java.util.Locale
 
 // ------------------------------------------------------------
 // Frame 2: "My Courses" screen
-// Same layout recipe as Cuthbert's TodayScreen: header on top, a scrolling
-// middle that takes up all the leftover space, bottom bar at the bottom.
+// Same layout recipe as Cuthbert's TodayScreen: header on top, then a
+// scrolling middle that takes up all the leftover space.
+// The bottom bar lives in the navigation file (CourseCardScreen.kt).
 // ------------------------------------------------------------
 
 @Composable
@@ -58,13 +59,11 @@ fun CoursesScreen(courses: List<Course>) {
         ) {
             ScreenHeader(title = "My Courses")
 
-            // weight(1f) = "take all the space left between the header and the bottom bar"
+            // weight(1f) = "take all the space left below the header"
             CourseList(
                 courses = courses,
                 modifier = Modifier.weight(1f)
             )
-
-            CoursesBottomNavigation()
         }
     }
 }
@@ -144,9 +143,8 @@ fun CourseSummaryCard(course: Course, modifier: Modifier = Modifier) {
 }
 
 // ------------------------------------------------------------
-// Header and bottom bar.
-// Same setup as Cuthbert's CourseHeader() and BottomNavigation() in TodayScreen.kt.
-// The bottom bar will move into the navigation file once we make it.
+// Header.
+// Same setup as Cuthbert's CourseHeader() in TodayScreen.kt, but you pass in the title.
 // ------------------------------------------------------------
 
 @Composable
@@ -179,43 +177,6 @@ fun ScreenHeader(title: String) {
         }
 
         HorizontalDivider(color = Color.Black)
-    }
-}
-
-@Composable
-fun CoursesBottomNavigation() {
-    Column {
-        HorizontalDivider(color = Color.Black)
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextButton(onClick = { /* Go to Today screen later. */ }) {
-                Text(
-                    text = "Today",
-                    color = Color.Black
-                )
-            }
-
-            TextButton(onClick = { /* Already on Courses. */ }) {
-                Text(
-                    text = "Courses",
-                    color = Color.Black,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            TextButton(onClick = { /* Add Calendar screen later. */ }) {
-                Text(
-                    text = "Calendar",
-                    color = Color.Black
-                )
-            }
-        }
     }
 }
 

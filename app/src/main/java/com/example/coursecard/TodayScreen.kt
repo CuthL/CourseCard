@@ -23,7 +23,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,7 +46,7 @@ fun TodayScreen() {
         ) {
             CourseHeader()
 
-            // Takes the available space between the header and navigation.
+            // Takes the available space below the header.
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -105,8 +104,6 @@ fun TodayScreen() {
                     location = "Building 2N • Room 001"
                 )
             }
-
-            BottomNavigation()
         }
     }
 }
@@ -187,43 +184,6 @@ fun ScheduleCourseCard(
                 text = location,
                 fontSize = 18.sp
             )
-        }
-    }
-}
-
-@Composable
-fun BottomNavigation() {
-    Column {
-        HorizontalDivider(color = Color.Black)
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextButton(onClick = { /* Already on Today. */ }) {
-                Text(
-                    text = "Today",
-                    color = Color.Black,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            TextButton(onClick = { /* Add Courses screen later. */ }) {
-                Text(
-                    text = "Courses",
-                    color = Color.Black
-                )
-            }
-
-            TextButton(onClick = { /* Add Calendar screen later. */ }) {
-                Text(
-                    text = "Calendar",
-                    color = Color.Black
-                )
-            }
         }
     }
 }

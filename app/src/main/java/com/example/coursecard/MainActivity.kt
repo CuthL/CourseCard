@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MaterialTheme {
-                TodayScreen()
+                CourseCardApp()
             }
         }
     }
