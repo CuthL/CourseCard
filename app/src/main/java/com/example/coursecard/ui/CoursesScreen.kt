@@ -30,7 +30,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-/** Frame 2: the "My Courses" screen. The header and bottom bar come from CourseCardScreen.kt. */
+/** Frame 2: "My Courses". The header and bottom bar come from CourseCardNavigation.kt. */
 @Composable
 fun CoursesScreen(courses: List<Course>) {
     Surface(

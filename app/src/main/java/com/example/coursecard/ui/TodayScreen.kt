@@ -37,7 +37,7 @@ fun TodayScreen() {
                 .safeDrawingPadding()
                 .padding(horizontal = 24.dp)
         ) {
-            // Takes all the available space (the header and bottom bar live in CourseCardScreen.kt).
+            // Takes all the space left (header and bottom bar are in CourseCardNavigation.kt).
             Column(
                 modifier = Modifier
                     .weight(1f)
